@@ -65,7 +65,7 @@ app.get("/post/:postName",function(req,res){
 });
 
 
-app.listen(5000,function(){
+app.listen(proces.env.PORT,function(){
   console.log("Server started at PORT 5000");
 })
 
