@@ -31,14 +31,31 @@ const Post = mongoose.model('Post',postSchema);
 
 
 
-var posts = [];
-var pageName = "";
+// var posts = [];
+// var pageName = "";
 app.get("/",function(req,res){
-  res.render("home",{
-    homeContent:homeStartingContent,
-    post:posts,
-    lastName:pageName
+  Post.find({},function(err,foundItems){
+    if(err){
+      console.log(err);
+    }
+    else{
+      console.log("Successfull read the posts from mongoDB");
+    }
+    
+    if(foundItems.length === 0){
+      
+      res.render("home",{
+        homeContent:homeStartingContent
+      });
+    }
+    else{
+      res.render("home",{
+        homeContent:homeStartingContent,
+        post:foundItems
+      });
+    }
   });
+  
 })
 
 app.get("/about",function(req,res){
