@@ -20,6 +20,17 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+mongoose.connect('mongodb://127.0.0.1:27017/myblogDB',{useNewUrlParser:true});
+
+const postSchema = new mongoose.Schema({
+    title: String,
+    message: String
+});
+
+const Post = mongoose.model('Post',postSchema);
+
+
+
 var posts = [];
 var pageName = "";
 app.get("/",function(req,res){
@@ -45,11 +56,12 @@ app.get("/compose",function(req,res){
 });
 
 app.post("/compose",function(req,res){
-  const post = {
+  const post = new Post({
       title : req.body.nameTitle,
       message: req.body.namePost
-  };
-  posts.push(post);
+  });
+  //posts.push(post);
+  post.save();
   
   res.redirect("/");
 })
