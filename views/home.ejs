@@ -4,7 +4,7 @@
 <%post.forEach(function(x){%>
     <h1><%=x.title%></h1>
     <p><%=x.message.substring(0,100)+" ..."%>
-        <a href="/post/<%=x.title%>" >Read More</a>
+        <a href="/post/<%=x._id%>" >Read More</a>
     </p>
 <%});%>
 

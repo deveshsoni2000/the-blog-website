@@ -35,25 +35,16 @@ const Post = mongoose.model('Post',postSchema);
 // var pageName = "";
 app.get("/",function(req,res){
   Post.find({},function(err,foundItems){
-    if(err){
-      console.log(err);
-    }
-    else{
-      console.log("Successfull read the posts from mongoDB");
-    }
-    
-    if(foundItems.length === 0){
-      
-      res.render("home",{
-        homeContent:homeStartingContent
-      });
-    }
-    else{
-      res.render("home",{
-        homeContent:homeStartingContent,
-        post:foundItems
-      });
-    }
+    // if(err){
+    //   console.log(err);
+    // }
+    // else{
+    //   console.log("Successfull read the posts from mongoDB");
+    // }
+    res.render("home",{
+      homeContent:homeStartingContent,
+      post:foundItems
+    });
   });
   
 })
@@ -78,18 +69,25 @@ app.post("/compose",function(req,res){
       message: req.body.namePost
   });
   //posts.push(post);
-  post.save();
-  
-  res.redirect("/");
-})
-app.get("/post/:postName",function(req,res){
-  pageName = lowerCase(req.params.postName);
-  let flag = false;
-  posts.forEach(function(x){
-    if(lowerCase(x.title) === pageName){
-      console.log("Yes we got it now redirecting");
-      res.render("post",{heading:x.title, content:x.message});
+  post.save(function(err){
+    if (!err){
+        res.redirect("/");
     }
+  });
+})
+app.get("/post/:postId",function(req,res){
+  const id = req.params.postId;
+  // let flag = false;
+  Post.findOne({_id:id},function(err,post){
+    if(!err){
+      if(post){
+        res.render("post",{heading:post.title, content:post.message});
+      }
+      else{
+        console.log("Not found!");
+      }
+    }
+    
   });
   
 });
