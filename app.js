@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const mongoose = require('mongoose');
 var kebabCase = require('lodash.kebabcase');
 var lowerCase = require('lodash.lowercase');
 
